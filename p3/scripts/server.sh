@@ -20,6 +20,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 sudo k3d cluster create mycluster
 
+sudo kubectl create namespace dev
 sudo kubectl create namespace argocd
 sudo kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
