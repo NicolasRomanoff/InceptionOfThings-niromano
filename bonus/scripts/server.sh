@@ -1,5 +1,5 @@
 sudo apt update
-sudo apt install ca-certificates curl
+sudo apt install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -29,3 +29,13 @@ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 
 sudo kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+sudo kubectl create namespace gitlab
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+
+helm repo add gitlab https://charts.gitlab.io
+helm install --namespace gitlab gitlab gitlab/gitlab \
+  --timeout 600s \
+  --set global.hosts.domain=localhost \
+  --set global.ingress.configureCertmanager=false \
+  --set nginx-ingress.enabled=false
